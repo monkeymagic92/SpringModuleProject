@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+	
+	
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	
+	
+	<!-- 주소 기본패키지로 변경! -->
+	<context:component-scan base-package="com.spring.module" />
+	
+	
+	
+	<!-- DB연결 getCon() -->
+	<beans:bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<beans:property name="poolName" value="springHikariCP" />
+		<beans:property name="connectionTestQuery" value="SELECT 1 FROM DUAL" />
+		<beans:property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+		<beans:property name="maximumPoolSize" value="10" />
+		<beans:property name="idleTimeout" value="3000" />
+		
+		<!-- serverTimezone 에러시  UTF-8 뒷단에 값 추가해주기  &amp;serverTimezone=UTC --> <!-- 스키마 변경 -->			
+		<beans:property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/matzip?characterEncoding=UTF-8&amp;serverTimezone=UTC "/>
+		<beans:property name="username" value="root" />
+		<beans:property name="password" value="orcl" />
+	</beans:bean>
+	
+	<!-- BoardWeb4에서 close() 각 DB연결한 Connection, PreparedStatement, ResultSet close() 해주는 것 -->
+	<beans:bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<beans:constructor-arg ref="hikariConfig" /> <!-- constructor-arg ref="" 생성자에 값 넣는 것 -->
+	</beans:bean>	
+	
+	<!-- mybatis 랑 spring 연동 모듈 -->
+	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource" />
+		<beans:property name="configLocation" value="WEB-INF/spring/mybatis-alias.xml" />
+	</beans:bean>
+	
+	
+	
+	<!-- 얘는 인터페이스의 @Mapper를 찾는 애 --> <!-- 주소 기본패키지로 변경! -->
+	<mybatis-spring:scan base-package="com.spring.module"/> <!--  하단 탭에Namespace import 안해서 빨간줄 뜨는것  -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 트랜지션 사용하기위해 등록하는 것 
+	<beans:bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<beans:property name="dataSource" ref="dataSource" />
+	</beans:bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	-->
+	
+	
+	
+	<!--
+ 					- 	인터셉터 관련	-	
+			
+	<interceptors>
+		<interceptor>
+			<mapping path="/**"/>			
+			<beans:bean class="com.#.#.#Interceptor"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/rest/*"/>			
+			<beans:bean class="com.#.#.#Interceptor"/>
+		</interceptor>
+	</interceptors>
+	 -->
+
+
+
+	
+	<!-- file Upload 하는 Beans (참고자료 : 디테일 사진 추가할때)
+		빨리치기위해 class="Commons" ctrl+spacebar 하면 자동으로 링크목록나옴
+	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="52428800" />  5MB 
+		<beans:property name="defaultEncoding" value="utf-8" />			
+	</beans:bean>
+	-->
+	
+</beans:beans>

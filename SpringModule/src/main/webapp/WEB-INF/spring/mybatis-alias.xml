@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd"> <!-- 마이바티스 사용하려면 무조건 상단에 박아둬야하는  DOCTYPE-->  
+<configuration>
+	<typeAliases>
+							<!-- 기본패키지 + 종목 + model + VO클래스 -->
+							
+		 <!--  <typeAlias type="com.#.#.#.model.#" alias="#" />-->
+		 
+		 
+	</typeAliases>
+</configuration>

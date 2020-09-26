@@ -1,0 +1,43 @@
+사용법 :
+프로젝트명 우클릭 -> refactory -> rename -> 하고싶은 프로젝트명 
+
+
+
+ㅡㅡ 밑에꺼는 굳이안해도됨 위에처럼 이름바꾸면   /  밑에는 앞으로 셋팅할떄 이런식으로 하자란 것 ㅡㅡ
+
+
+
+★ 자바 버전 셋팅 ★
+프로젝트 우클릭 Properties -> 
+Project Facets ->
+Java 1.6 -> 1.8
+Runtimes -> 톰캣9.0 체크
+
+★ web.xml 셋팅 ★
+전체복붙
+
+
+★ pom.xml 셋팅 ★
+pom.xml  전체 복붙
+( Java Resources -> Libraires -> maven Dependencies 4.3.29로 업뎃됬는지 확인 )
+
+
+★ servlet-context.xml 셋팅 ★
+src -> webapp -> spring -> appServlet -> servlet-context.xml 전체 복붙
+
+
+★ mybatis-alais ★
+경로주의!  src - webapp - spring - mybatis.alias.xml  전체 복붙
+
+
+★ mapper.xml 추가 ★
+src/main/java/ -> TestMapper.xml 복붙
+
+
+
+
+
+
+
+
+
